@@ -121,15 +121,4 @@ app.get("/healthz", (req, res) => res.status(200).send("OK"));
 const port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", () => {
   console.log(`MCP Server running on port ${port}`);
-
-  // מנגנון מניעת הירדמות: שירותים כמו Render מרדימים שרתים בחינם אחרי 15 דקות ללא פעילות
-  const myUrl =
-    process.env.RENDER_EXTERNAL_URL ||
-    "https://weather-mcp-server-e3bs.onrender.com";
-  // הפעלת טיימר הפונה לשרת עצמו (לנתיב החינדרוש /healthz) כל 8 דקות (480,000 מילי-שניות)
-  setInterval(async () => {
-    try {
-      await fetch(`${myUrl}/healthz`);
-    } catch (e) {}
-  }, 480000);
 });
